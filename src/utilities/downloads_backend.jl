@@ -53,8 +53,8 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     # need to do this on per-request downloaders, because we
     # set our global one with this hook already.
     if backend.downloader !== nothing && downloader.easy_hook === nothing
-        downloader.easy_hook = (easy, info) ->
-            Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
+        downloader.easy_hook =
+            (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
     end
 
     local buffer
@@ -96,7 +96,6 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         # Transfer the contents of the `BufferStream` into `response_stream` variable.
         write(response_stream, buffer)
     end
-
 
     return AWS.Response(http_response, response_stream)
 end
