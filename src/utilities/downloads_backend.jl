@@ -97,7 +97,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         write(response_stream, buffer)
     end
 
-    return AWS.Response(http_response, response_stream)
+    return AWS.Response(response, response_stream)
 end
 
 function _http_response(r::Downloads.Response; throw::Bool=true)
