@@ -82,7 +82,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
                 downloader=downloader,
             )
 
-            response = _http_response(r, request.url; throw=true)
+            response = _http_response(request, r; throw=true)
         catch e
             @delay_retry if (
                 (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
