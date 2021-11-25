@@ -82,7 +82,7 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
                 downloader=downloader,
             )
 
-            response = _http_response(r; throw=true)
+            response = _http_response(r, request.url; throw=true)
         catch e
             @delay_retry if (
                 (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
@@ -100,11 +100,11 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     return AWS.Response(response, response_stream)
 end
 
-function _http_response(r::Downloads.Response; throw::Bool=true)
+function _http_response(r::Downloads.Response, url::AbstractString; throw::Bool=true)
     response = HTTP.Response(r.status, r.headers; body=body_was_streamed, request=nothing)
 
     if throw && HTTP.iserror(response)
-        target = HTTP.resource(HTTP.URI(request.url))
+        target = HTTP.resource(HTTP.URI(url))
         e = HTTP.StatusError(r.status, r.request_method, target, http_response)
         Base.throw(e)
     end
