@@ -107,7 +107,7 @@ function _http_response(req::Request, res::Downloads.Response; throw::Bool=true)
 
     if throw && HTTP.iserror(response)
         target = HTTP.resource(HTTP.URI(req.url))
-        e = HTTP.StatusError(res.status, req.request_method, target, http_response)
+        e = HTTP.StatusError(res.status, req.request_method, target, response)
         Base.throw(e)
     end
 
