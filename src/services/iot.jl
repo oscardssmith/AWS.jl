@@ -734,6 +734,10 @@ Creates an authorizer. Requires permission to access the CreateAuthorizer action
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enableCachingForHttp"`: When true, the result from the authorizer’s Lambda function
+  is cached for clients that use persistent HTTP connections. The results are cached for the
+  time specified by the Lambda function in refreshAfterInSeconds. This value does not affect
+  authorization of clients that use MQTT connections. The default value is false.
 - `"signingDisabled"`: Specifies whether IoT validates the token signature in an
   authorization request.
 - `"status"`: The status of the create authorizer request.
@@ -8563,6 +8567,9 @@ Updates an authorizer. Requires permission to access the UpdateAuthorizer action
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorizerFunctionArn"`: The ARN of the authorizer's Lambda function.
+- `"enableCachingForHttp"`: When true, the result from the authorizer’s Lambda function
+  is cached for the time specified in refreshAfterInSeconds. The cached result is used while
+  the device reuses the same HTTP connection.
 - `"status"`: The status of the update authorizer request.
 - `"tokenKeyName"`: The key used to extract the token from the HTTP headers.
 - `"tokenSigningPublicKeys"`: The public keys used to verify the token signature.
